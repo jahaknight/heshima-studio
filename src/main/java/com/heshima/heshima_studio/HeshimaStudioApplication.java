@@ -9,5 +9,4 @@ public class HeshimaStudioApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HeshimaStudioApplication.class, args);
 	}
-
 }
