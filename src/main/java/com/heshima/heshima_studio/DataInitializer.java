@@ -36,7 +36,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Heshima",
                     "Admin",
                     "admin@heshima.studio",
-                    "password123",      // TODO: later we hash this
+                    "password123",      // TODO: hash this
                     adminRole
             );
             userService.createUser(admin);
