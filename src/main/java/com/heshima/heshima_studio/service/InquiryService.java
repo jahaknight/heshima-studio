@@ -12,4 +12,6 @@ public interface InquiryService {
     List<Order> getAllInquiries();
 
     Optional<Order> getInquiryById(Long id);
+
+    void deleteInquiry(Long id);
 }

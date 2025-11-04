@@ -56,7 +56,6 @@ public class InquiryServiceImpl implements InquiryService {
         savedOrder.setItems(List.of(item));
 
         return savedOrder;
-
     }
 
     @Override
@@ -69,4 +68,14 @@ public class InquiryServiceImpl implements InquiryService {
         return orderRepository.findById(id);
     }
 
+    @Override
+    public void deleteInquiry(Long id) {
+        boolean exists = orderRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalArgumentException("Inquiry (order) not found with id: " + id);
+        }
+
+        // makes sure actually deletes in postman
+        orderRepository.deleteById(id);
+    }
 }
