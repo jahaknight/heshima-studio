@@ -1,17 +1,17 @@
 package com.heshima.heshima_studio.service;
 
-import com.heshima.heshima_studio.entity.Order;
+import com.heshima.heshima_studio.controller.dto.InquiryResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface InquiryService {
 
-    Order createInquiry(Long productId, String name, String email, String message);
+    InquiryResponse createInquiry(Long productId, String name, String email, String message);
 
-    List<Order> getAllInquiries();
+    List<InquiryResponse> getAllInquiries();
 
-    Optional<Order> getInquiryById(Long id);
+    Optional<InquiryResponse> getInquiryById(Long id);
 
     void deleteInquiry(Long id);
 }
