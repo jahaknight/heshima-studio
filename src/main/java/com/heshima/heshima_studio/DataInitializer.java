@@ -10,6 +10,8 @@ import com.heshima.heshima_studio.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -21,15 +23,18 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;        // checks if user exists
     private final UserService userService;              // creates user officially
     private final ProductRepository productRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(RoleRepository roleRepository,
                            UserRepository userRepository,
                            UserService userService,
-                           ProductRepository productRepository) {
+                           ProductRepository productRepository,
+                           PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.productRepository = productRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -49,7 +54,7 @@ public class DataInitializer implements CommandLineRunner {
                     "Heshima",
                     "Admin",
                     "admin@heshima.studio",
-                    "password123",      // TODO: hash this
+                    passwordEncoder.encode("password123"),    // password now hashed
                     adminRole
             );
             admin.setCreatedAt(LocalDateTime.now());

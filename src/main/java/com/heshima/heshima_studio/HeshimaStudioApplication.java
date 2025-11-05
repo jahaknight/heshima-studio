@@ -10,3 +10,4 @@ public class HeshimaStudioApplication {
 		SpringApplication.run(HeshimaStudioApplication.class, args);
 	}
 }
+
