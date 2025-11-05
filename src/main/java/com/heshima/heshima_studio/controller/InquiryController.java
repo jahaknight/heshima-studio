@@ -76,11 +76,7 @@ public class InquiryController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInquiry(@PathVariable Long id) {
-        try {
-            inquiryService.deleteInquiry(id);
-            return ResponseEntity.noContent().build(); // 204
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();  // 404
-        }
+        inquiryService.deleteInquiry(id);
+        return ResponseEntity.noContent().build();
     }
 }

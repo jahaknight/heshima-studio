@@ -6,13 +6,11 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -30,8 +28,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // public endpoints
+                        .requestMatchers("/api/health").permitAll()
                         .requestMatchers("/api/products/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/inquiries").permitAll()      // POST from contact form
+                        .requestMatchers(HttpMethod.POST, "/api/inquiries").permitAll()
                         // admin-only stuff
                         .requestMatchers("/api/inquiries/**").hasRole("ADMIN")
                         // everything else must be authenticated
