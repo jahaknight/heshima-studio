@@ -46,7 +46,6 @@ public class InquiryController {
                 .created(URI.create("/api/inquiries/" + saved.getId()))
                 .body(saved);
     }
-
     /**
      * GET /api/inquiries
      * Returns all inquiries, usually for the admin dashboard.
@@ -56,7 +55,6 @@ public class InquiryController {
     public ResponseEntity<List<InquiryResponse>> getAllInquiries() {
         return ResponseEntity.ok(inquiryService.getAllInquiries());
     }
-
     /**
      * GET /api/inquiries/{id}
      * Returns a single inquiry by id (also for admin).
@@ -68,12 +66,12 @@ public class InquiryController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
     /**
      * DELETE /api/inquiries/{id}
      * Admin-only: allows removing an inquiry from the system.
      * Returns 204 on success, 404 if the id is not found.
      */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInquiry(@PathVariable Long id) {
         inquiryService.deleteInquiry(id);
