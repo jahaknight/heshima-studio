@@ -64,7 +64,7 @@ class InquiryControllerTest {
     @Test
     @DisplayName("POST /api/inquiries returns 201 and response body")
     void createInquiry_returnsCreated() throws Exception {
-        // ---------- Arrange (given) ----------
+        // ---------- Arrange ----------
 
         // Build the request DTO the same way the client/front-end would send it
         InquiryRequest req = new InquiryRequest();
@@ -76,9 +76,9 @@ class InquiryControllerTest {
         // Build the response DTO we expect the service to give back
         InquiryItemResponse line = new InquiryItemResponse(
                 1L,                    // productId
-                "Branding",            // productName
-                1,                     // quantity
-                new BigDecimal("750.00") // finalPrice
+                "Branding",                     // productName
+                1,                              // quantity
+                new BigDecimal("750.00")    // finalPrice
         );
 
         InquiryResponse resp = new InquiryResponse(

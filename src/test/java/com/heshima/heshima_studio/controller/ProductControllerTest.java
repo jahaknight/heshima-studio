@@ -105,5 +105,16 @@ class ProductControllerTest {
         mockMvc.perform(get("/api/products/999").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @DisplayName("getProductById should return 404 when product is not found")
+    void getProductById_notFound_returns404() throws Exception {
+        // arrange: ask for a product id that doesn't exist
+        long missingId = 9999L;
+
+        // act + assert
+        mockMvc.perform(get("/api/products/{id}", missingId))
+                .andExpect(status().isNotFound());
+    }
 }
 

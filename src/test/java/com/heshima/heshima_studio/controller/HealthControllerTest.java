@@ -25,7 +25,7 @@ class HealthControllerTest {
         // 1) create the controller we want to test
         HealthController controller = new HealthController();
 
-        // 2) build MockMvc around JUST this controller (no full Spring context)
+        // 2) build MockMvc around controller (no full Spring context)
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         // 3) perform the request and assert
