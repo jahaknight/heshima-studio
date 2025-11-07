@@ -12,4 +12,10 @@ export async function fetchProducts() {
     return response.data;
 }
 
-export default apiClient;
+// POST /api.inquiries
+// this sends the public inquiry form data to the backend
+export async function submitInquiry(inquiry) {
+    const response = await apiClient.post('/api/inquiries', inquiry)
+    return response.data;
+}
+

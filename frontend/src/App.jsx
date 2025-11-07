@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import heroVisual from './assets/hero-visual.jpeg'
 import { fetchProducts } from './api/apiClient'
+import InquiryForm from './components/InquiryForm.jsx'
 
 function App() {
   return (
@@ -212,6 +213,11 @@ function Services() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  // controls whether the inquiry form is visible
+  const [showInquiry, setShowInquiry] = useState(false)
+  // holds the service the user clicked on from a card
+  const [selectedService, setSelectedService] = useState('')
+
   useEffect(() => {
     async function load() {
       console.log('Loading services...')
@@ -254,6 +260,12 @@ function Services() {
   // so the UI still explains what the studio offers.
   const listToRender = products.length > 0 ? products : fallbackServices
 
+  // when a user clicks Inquire on a specific card
+  const handleInquireClick = serviceName => {
+    setSelectedService(serviceName)
+    setShowInquiry(true)
+  }
+
   return (
     <section style={{ paddingTop: '2.5rem' }}>
       <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Studio Services</h2>
@@ -282,8 +294,20 @@ function Services() {
                   : '$0.00'
               }
               desc={service.description || 'Studio service.'}
+              onInquire={() => handleInquireClick(service.name)}
             />
           ))}
+        </div>
+      )}
+
+      {/* inquiry form so visitors can contact the studio */}
+      {showInquiry && (
+        <div style={{ marginTop: '2.25rem' }}>
+          {/* pass list + selected so dropdown can be pre-filled */}
+          <InquiryForm
+            products={listToRender}
+            selectedService={selectedService}
+          />
         </div>
       )}
 
@@ -296,7 +320,7 @@ function Services() {
   )
 }
 
-function ServiceCard({ title, price, desc }) {
+function ServiceCard({ title, price, desc, onInquire }) {
   return (
     <div
       style={{
@@ -332,6 +356,7 @@ function ServiceCard({ title, price, desc }) {
         }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.03)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+        onClick={onInquire}
       >
         Inquire
       </button>
