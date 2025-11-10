@@ -1,148 +1,172 @@
-// src/components/InquiryForm.jsx
 import { useState } from 'react'
-import axios from 'axios'
+import { submitInquiry } from '../api/apiClient'
 
 function InquiryForm({ products = [], selectedService = '' }) {
-    // form state
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    // default to what the user clicked; otherwise empty
-    const [service, setService] = useState(selectedService)
-    const [details, setDetails] = useState('')
-    const [message, setMessage] = useState('')
-
-    // submit handler posts to Spring Boot
-    async function handleSubmit(e) {
-        e.preventDefault()
-        setMessage('')
-
-        try {
-            await axios.post('http://localhost:8080/api/inquiries', {
-                name,
-                email,
-                serviceInterestedIn: service,
-                message: details,
-            })
-            setMessage('✅ Inquiry sent to the studio.')
-            setName('')
-            setEmail('')
-            setService(selectedService || '')
-            setDetails('')
-        } catch (err) {
-            console.error('Error submitting inquiry:', err)
-            // message for when backend rejects due to auth/CORS
-            setMessage('Could not send inquiry right now. Please try again.')
-        }
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  // start empty so placeholder shows
+  const [message, setMessage] = useState('')
+  const [serviceId, setServiceId] = useState(() => {
+    if (selectedService && products.length > 0) {
+      const match = products.find(p => p.name === selectedService)
+      return match ? match.id : ''
     }
+    return ''
+  })
 
-    return (
-        <form
-            onSubmit={handleSubmit}
+  const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess] = useState('')
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSubmitting(true)
+    setSuccess('')
+    setError('')
+
+    try {
+      const payload = {
+        productId: Number(serviceId),
+        name,
+        email,
+        message,
+      }
+
+      const response = await submitInquiry(payload)
+      console.log('✅ Inquiry created:', response)
+
+      setSuccess('Inquiry received — Heshima Studio will follow up shortly.')
+      setName('')
+      setEmail('')
+      setMessage('')       
+      setServiceId('')
+    } catch (err) {
+      console.error('❌ Error submitting inquiry:', err)
+      setError('Something went wrong sending your inquiry. Please try again or contact the studio directly.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div
+      style={{
+        background: '#fff',
+        borderRadius: '1rem',
+        padding: '1.5rem 1.25rem 1.75rem',
+        boxShadow: '0 10px 26px rgba(0,0,0,0.03)',
+        border: '1px solid rgba(33,62,96,0.03)',
+      }}
+    >
+      <h3 style={{ marginBottom: '0.4rem', fontSize: '1.15rem', fontWeight: 700, color: '#213E60' }}>
+        Let’s dignify your brand.
+      </h3>
+      <p style={{ marginBottom: '1.2rem', fontSize: '0.8rem', color: 'rgba(33,62,96,0.6)' }}>
+        Share what you need and we’ll match it with the right Heshima Studio service.
+      </p>
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <label style={labelStyle}>
+          Service you’re interested in
+          <select
+            value={serviceId}
+            onChange={e => setServiceId(e.target.value)}
+            style={inputStyle}
+            required
+          >
+            <option value="">Select a service</option>
+            {products.map(prod => (
+              <option key={prod.id} value={prod.id}>
+                {prod.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label style={labelStyle}>
+          First name, Last name
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="e.g. Jaha Knight"
+            style={inputStyle}
+            required
+          />
+        </label>
+
+        <label style={labelStyle}>
+          Contact email
+          <input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            style={inputStyle}
+            required
+          />
+        </label>
+
+        <label style={labelStyle}>
+          Project details
+          <textarea
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            rows={4}
+            style={{ ...inputStyle, resize: 'vertical' }}
+            placeholder="Tell us what you’re building, timeline, and any links."
+          />
+        </label>
+
+        <div style={{ textAlign: 'center', marginTop: '0.4rem' }}>
+          <button
+            type="submit"
+            disabled={submitting}
             style={{
-                background: '#fff',
-                borderRadius: '1.4rem',
-                padding: '1.9rem 1.6rem 1.6rem',
-                maxWidth: '540px',
-                border: '1px solid rgba(33,62,96,0.03)',
-                boxShadow: '0 18px 42px rgba(0,0,0,0.025)',
+              background: '#213E60',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '999px',
+              padding: '0.55rem 1.4rem',
+              fontWeight: 600,
+              cursor: submitting ? 'not-allowed' : 'pointer',
+              opacity: submitting ? 0.65 : 1,
             }}
-        >
-            <h3 style={{ marginBottom: '0.25rem' }}>Start a project inquiry</h3>
-            <p style={{ marginBottom: '1.3rem', fontSize: '0.75rem', color: 'rgba(33,62,96,0.6)' }}>
-                This posts to the Spring Boot API at <code>/api/inquiries</code>.
-            </p>
+          >
+            {submitting ? 'Sending…' : 'Submit inquiry'}
+          </button>
+        </div>
+      </form>
 
-            {/* name */}
-            <label style={labelStyle}>
-                Name
-                <input
-                    style={inputStyle}
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    required
-                    placeholder="Jaha Knight"
-                />
-            </label>
-
-            {/* email */}
-            <label style={labelStyle}>
-                Email
-                <input
-                    type="email"
-                    style={inputStyle}
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
-                    placeholder="you@example.com"
-                />
-            </label>
-
-            {/* service interested in — dropdown from products */}
-            <label style={labelStyle}>
-                Service interested in
-                <select
-                    style={inputStyle}
-                    value={service}
-                    onChange={e => setService(e.target.value)}
-                    required
-                >
-                    <option value="">Select a service…</option>
-                    {products.map(p => (
-                        <option key={p.id} value={p.name}>
-                            {p.name}
-                        </option>
-                    ))}
-                </select>
-            </label>
-
-            {/* project details */}
-            <label style={labelStyle}>
-                Project details
-                <textarea
-                    style={{ ...inputStyle, minHeight: '110px', resize: 'vertical' }}
-                    value={details}
-                    onChange={e => setDetails(e.target.value)}
-                    placeholder="need help with logo work"
-                />
-            </label>
-
-            <button
-                type="submit"
-                style={{
-                    background: '#213E60',
-                    color: '#fff',
-                    border: 'none',
-                    padding: '0.6rem 1.35rem',
-                    borderRadius: '999px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                }}
-            >
-                Submit inquiry
-            </button>
-
-            {message && (
-                <p style={{ marginTop: '0.6rem', fontSize: '0.7rem', color: '#C05621' }}>{message}</p>
-            )}
-        </form>
-    )
+      {success && (
+        <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: '#21725a' }}>
+          {success}
+        </p>
+      )}
+      {error && (
+        <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: '#C05621' }}>
+          {error}
+        </p>
+      )}
+    </div>
+  )
 }
 
 const labelStyle = {
-    display: 'block',
-    fontSize: '0.73rem',
-    marginBottom: '0.65rem',
-    color: '#213E60',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.35rem',
+  fontSize: '0.75rem',
+  color: '#213E60',
+  fontWeight: 500,
 }
 
 const inputStyle = {
-    width: '100%',
-    marginTop: '0.35rem',
-    border: '1px solid rgba(33,62,96,0.1)',
-    borderRadius: '0.8rem',
-    padding: '0.5rem 0.65rem',
-    fontSize: '0.78rem',
-    outline: 'none',
+  border: '1px solid rgba(33,62,96,0.15)',
+  borderRadius: '0.5rem',
+  padding: '0.5rem 0.55rem',
+  fontSize: '0.78rem',
+  outline: 'none',
 }
 
 export default InquiryForm
