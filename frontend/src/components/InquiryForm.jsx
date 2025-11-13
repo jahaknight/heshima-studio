@@ -59,15 +59,15 @@ function InquiryForm({ products = [], selectedService = '' }) {
       }}
     >
       <h3 style={{ marginBottom: '0.4rem', fontSize: '1.15rem', fontWeight: 700, color: '#213E60' }}>
-        Let’s dignify your brand.
+        Let's dignify your brand.
       </h3>
       <p style={{ marginBottom: '1.2rem', fontSize: '0.8rem', color: 'rgba(33,62,96,0.6)' }}>
-        Share what you need and we’ll match it with the right Heshima Studio service.
+        Share what you need and we'll match it with the right Heshima Studio service.
       </p>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         <label style={labelStyle}>
-          Service you’re interested in
+          Service you're interested in
           <select
             value={serviceId}
             onChange={e => setServiceId(e.target.value)}

@@ -4,6 +4,16 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
+/**
+ * JPA entity that represents a Heshima Studio offering (service/product).
+ *
+ * In this portfolio project:
+ * - Each Product is something a client can select on the Services page.
+ * - The React frontend calls /api/products and renders these as service cards.
+ * - basePrice is stored as BigDecimal for safe currency handling.
+ * - isActive allows me to “soft hide” a product without deleting it.
+ */
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -26,8 +36,15 @@ public class Product {
 
     // constructors
     public Product() {
-
     }
+
+    /**
+     * Convenience constructor for seeding and tests.
+     *
+     * @param name        display name of the service
+     * @param description marketing description that appears in the UI
+     * @param basePrice   starting price for this service
+     */
 
     public Product(String name, String description, BigDecimal basePrice) {
         this.name = name;

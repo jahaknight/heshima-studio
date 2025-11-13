@@ -1,5 +1,24 @@
 package com.heshima.heshima_studio.controller.dto;
 
+/**
+ * Write-only request payload from the public Inquiry form.
+ *
+ * Purpose:
+ * - Minimal fields collected from the front end to create an inquiry/order.
+ * - Kept separate from entity models to avoid over-posting and to control
+ * exactly what the client can send.
+ *
+ *  * Validation (handled by service/controller layer or a validator):
+ *  - productId: must reference an existing Product.
+ *  - name: required, non-blank.
+ *  - email: required, valid email format.
+ *  - message: optional but recommended; trimmed to store concise notes.
+ *
+ *  * Notes:
+ *  * - Default no-args constructor is required by Jackson for JSON deserialization.
+ *  * - Only exposes setters/getters for fields that are safe to accept from clients
+ */
+
 public class InquiryRequest {
 
     private Long productId;

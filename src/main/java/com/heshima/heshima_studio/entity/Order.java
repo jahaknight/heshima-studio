@@ -6,6 +6,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA entity that represents an "inquiry" or order in the system.
+ *
+ * In this project:
+ * - Each Order maps to a single client inquiry from the frontend form.
+ * - Customer name, email, and notes come directly from the React form.
+ * - OrderItems capture which services the client is interested in.
+ *
+ * This entity is persisted to the "orders" table and is also used to build
+ * the InquiryResponse DTO for the admin dashboard.
+ */
+
 @Entity
 @Table(name = "orders")
 public class Order {

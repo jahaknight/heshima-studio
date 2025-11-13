@@ -1,9 +1,18 @@
 package com.heshima.heshima_studio.entity;
 
-
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+
+/**
+ * JPA entity that represents an application user.
+ *
+ * In this project:
+ * - Users are persisted in the {@code users} table.
+ * - Each user is linked to a {@link Role} which feeds into Spring Security.
+ * - Passwords are stored as hashes, not plain text.
+ * - The DataInitializer creates a default admin user for the demo.
+ */
 
 @Entity
 @Table(name = "users")
@@ -34,7 +43,6 @@ public class User {
     private Role role;
 
     public User() {
-
     }
 
     public User(String firstName, String lastName, String email, String passwordHash, Role role) {

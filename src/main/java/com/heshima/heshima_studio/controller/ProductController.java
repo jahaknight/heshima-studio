@@ -7,6 +7,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller that exposes product data for the frontend.
+ *
+ * Purpose:
+ * - Gives the React client a clean way to read all active Heshima Studio services.
+ * - Keeps HTTP + JSON concerns here, while ProductService owns the business logic.
+ *
+ * Base path:
+ * - All endpoints in this controller are under /api/products.
+ * - CORS is opened up so the React app (different port) can call these APIs.
+ */
+
 @RestController
 @RequestMapping("/api/products")
 @CrossOrigin(origins = "*")

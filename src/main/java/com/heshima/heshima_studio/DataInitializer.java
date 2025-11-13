@@ -16,6 +16,18 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * Application bootstrap seed data.
+ *
+ * This runner creates:
+ * - Core roles (ADMIN, USER)
+ * - A default admin account for the demo
+ * - Three starter Heshima Studio services (Branding, Web Design, UX / UI)
+ *
+ * Having this class means I can spin up a fresh database and immediately
+ * log in and hit meaningful API data without manually inserting anything.
+ */
+
 @Component
 public class DataInitializer implements CommandLineRunner {
 

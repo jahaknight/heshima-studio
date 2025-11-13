@@ -14,6 +14,7 @@ import java.util.List;
  * This is what the React/front-end “Contact / Service Inquiry” form will talk to.
  * Public users can POST an inquiry, but viewing/deleting is protected in SecurityConfig.
  */
+
 @RestController
 @RequestMapping("/api/inquiries")
 @CrossOrigin(origins = "*") // allow frontend (different port) to call this API
@@ -32,6 +33,7 @@ public class InquiryController {
      * We accept a simple DTO (InquiryRequest) and return a DTO (InquiryResponse)
      * so the client gets a clean object back.
      */
+
     @PostMapping
     public ResponseEntity<InquiryResponse> createInquiry(@RequestBody InquiryRequest request) {
         InquiryResponse saved = inquiryService.createInquiry(
@@ -46,26 +48,31 @@ public class InquiryController {
                 .created(URI.create("/api/inquiries/" + saved.getId()))
                 .body(saved);
     }
+
     /**
      * GET /api/inquiries
      * Returns all inquiries, usually for the admin dashboard.
      * SecurityConfig requires ADMIN role to hit this.
      */
+
     @GetMapping
     public ResponseEntity<List<InquiryResponse>> getAllInquiries() {
         return ResponseEntity.ok(inquiryService.getAllInquiries());
     }
+
     /**
      * GET /api/inquiries/{id}
      * Returns a single inquiry by id (also for admin).
      * 404 if it doesn’t exist.
      */
+
     @GetMapping("/{id}")
     public ResponseEntity<InquiryResponse> getInquiryById(@PathVariable Long id) {
         return inquiryService.getInquiryById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     /**
      * DELETE /api/inquiries/{id}
      * Admin-only: allows removing an inquiry from the system.

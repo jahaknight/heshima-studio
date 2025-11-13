@@ -11,6 +11,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Custom {@link UserDetailsService} implementation that tells Spring Security
+ * how to look up users from my database.
+ *
+ * Instead of using an in-memory user, this class plugs into {@link UserRepository}
+ * and turns my {@link User} entity into a Spring Security {@link UserDetails} object.
+ *
+ * This is what makes the Basic Auth credentials work for protected endpoints
+ * (for example, viewing inquiries on the admin dashboard).
+ */
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

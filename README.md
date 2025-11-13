@@ -1,34 +1,62 @@
-# Heshima Studio
+# Heshima Studio 👩🏾‍💻
 
-Heshima Studio is a **mock creative agency web application** built to showcase full-stack development and design skills.  
-The backend is built with **Java 21, Spring Boot, and MySQL**, while the frontend (coming next) will use **React** for a sleek, techy, agency-style experience.
+Heshima Studio is a **mock creative agency web application** built to showcase full-stack development, UI design,
+amd software engineering best practices.
+The backend is built with **Java 21, Spring Boot, and MySQL**, while the frontend will use **React** for a sleek,
+techy, agency-style experience.
+
+This project includes:
+
+* A **Spring Boot** + **MySQL** backend powering product data and inquiry storage
+* A **React** frontend that delivers a polished, agency-style user experience
+* API communication via Axios
+* Complete CRUD support for inquiries and service listings
+* A lightweight "project scope cart" for selecting service before submitting an inquiry
+
+This application demonstrates both backend architecture and frontend UX execution designed to mirror a real creative agency workflow.
 
 ---
 
 ## 🎯 Project Overview
-This application simulates how a real creative agency handles service inquiries and project management.  
-Visitors can explore available services and submit inquiries that are saved to the database.
+Visitors can browse services (Branding, Web Design, UX/UI), add them to a customized “project scope,” and submit an inquiry.
+On the backend, all inquiries are stored as **Orders** with optional **Order Items**, giving the admin a clean view of incoming leads.
+
+This simulates the intake process of a real design studio.
 
 ---
 
 ## 🛠️ Tech Stack
-
 **Backend**
-- Java 21 / Spring Boot 3
+- Java 21
+- Spring Boot 3
 - Spring Data JPA (MySQL)
 - Spring Security (CustomUserDetailsService)
-- JUnit 5 & Mockito for testing
-- Maven build system
+- JUnit 5 / Mockito (100% green tests)
+- Maven
 
-**Frontend (coming soon)**
-- React + Vite
-- Axios for API calls
-- Tailwind or Styled Components for UI
+**Frontend**
+- React 18 + Vite
+- Axios
+- Inline CSS-in-JS styling
+- Responsive layout
+- UI/UX designed using Heshima Studio’s brand system
+- Miro wireframes + Trello task tracking
 
 ---
 
-## 🧩 Features
+## 🎨Frontend Features (React)
 
+| Feature                                            | Description                                                                                                  |
+|----------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Hero Landing Page**                              | Modern agency-style landing section with custom visuals.                                                     |
+| **Dynamic Services Page**                          | Fetches real products from the Spring API (/api/products). Falls back to placeholders if backend is offline. |
+| **Inquiry Form**                                   | Allows general inquiries or service-specific inquiries.                                                      |
+| **Project Scope Cart**                             | Add/remove services, view estimated total before submitting.                                                 |
+| **Admin Dashboard(frontend)**                      | Displays inquiries returned by /api/inquiries.                                                               |
+| **Routing with React Router**                      | Home → Services → Cart → Admin.                                                                              |
+| **Clean, minimalist UI based on brand guidelines** | Beige, navy, orange accent, Roboto Mono aesthetic.                                                           |
+
+## 🧩 Backend Features
 | Feature | Description |
 |----------|-------------|
 | **Inquiry Management** | Handles service inquiries with `InquiryController` and `InquiryService`. |
@@ -80,6 +108,12 @@ From IntelliJ or terminal:
 ```
 mvn spring-boot:run
 ```
+### 4️⃣ Run the frontend 
+```
+npm install
+npm run dev
+```
+Frontend will start on http://localhost:5173\
 The backend will start on http://localhost:8080
 
 ### 💻 API Endpoints
@@ -95,31 +129,38 @@ The backend will start on http://localhost:8080
 | GET    | `/api/health`         | Check backend health status 
 ```
 
-### 💡 Reflection & Challenges
+### 💡 Challenges & Lessons Learned
 
-During development, the biggest challenge was working around the @MockBean incompatibility with newer JDK versions.
-I learned how to use pure Mockito mocks (MockMvcBuilders.standaloneSetup) to simulate controller behavior safely;
-a valuable technique for maintaining compatibility with future Java releases.
+- **React Refresh + Routing Conflict**\
+I attempted to automatically redirect users back to / on hard refresh.\
+Due to React Router + Vite history mode, this caused route loss and broken links so I documented this clearly and removed the feature.
+- **Dinero.js Deprecation**\
+Stretch goal was currency formatting with Dinero.js, but Vite + ES module imports caused persistent build errors.
+I pivoted to Intl.NumberFormat instead; lightweight and reliable.
+- **Testing with JDK 21**
+Newer Java versions caused issues with @MockBean + Spring Boot testing.
+Solution: use pure Mockito (MockMvcBuilders.standaloneSetup) to simulate controllers safely.
 
-This project strengthened my understanding of Spring Boot architecture, DTO handling, and controller/service testing.
+Each challenge strengthened my understanding of dependency management, routing, and mocking strategies.
 
 ---
 
-### 🎨 Design Vision (Frontend Preview)
+### 🚀 Future Enhancements
+- Full admin login system 
+- Two-factor authentication (2FA)
+- Inquiry detail view + status updates
+- Full CMS-style product management
+- Email notifications on inquiry submit
+- Stripe checkout for service deposits
 
-The upcoming React frontend will reflect the Heshima Studio aesthetic:
-	•	Minimalist black, beige, and off-white palette
-	•	Roboto Mono typography
-	•	Layout inspired by Apple’s “Orchard” retail experience
-	•	Wireframes built in Miro, tasks tracked in Trello
 ---
 
 ### 👤 Author
 
-Jaha Knight
-Software Engineering Apprentice @ Boomi
-📍 Full-stack Developer | UX Designer | MBA Candidate
-💼 Heshima Studio (frontend launching soon)
+Jaha Knight\
+Software Engineering Apprentice @ Boomi\
+📍 Full-stack Developer | UX Designer | MBA Candidate\
+💼 Portfolio Project: Heshima Studio\
 
 ---
 

@@ -2,6 +2,16 @@ package com.heshima.heshima_studio.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * JPA entity that represents a security role in the system.
+ *
+ * In this project:
+ * - Roles are used by Spring Security to control access (ex: "ADMIN", "USER").
+ * - The DataInitializer seeds these roles so I can attach them to users.
+ * - CustomUserDetailsService reads the Role name and turns it into a
+ *   Spring Security authority (ROLE_ADMIN, ROLE_USER).
+ */
+
 @Entity
 @Table(name = "roles")
 public class Role {
